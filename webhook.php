@@ -80,7 +80,8 @@ if ($chatId == $config['chat_id'] || $chatId == $config['chat_id_test']) {
     if (isset($data['message']['new_chat_participant']['last_name'])) {
       $name .= ' ' . $data['message']['new_chat_participant']['last_name'];
     }
-    $rules = "Welcome, <a href=\"tg://user?id=$userId\">$name</a>!";
+    $rules = "Welcome, <a href=\"tg://user?id=$userId\">$name</a>!
+Follow the /rules and enjoy your stay~";
     $replyMarkup = array(
       'inline_keyboard' => array(
         array(
@@ -107,7 +108,11 @@ if ($chatId == $config['chat_id'] || $chatId == $config['chat_id_test']) {
         $command = strtolower($command);
         switch (true) {
           case ($command === '/rules'):
-            sendMessage($chatId, '1. Apply common sense');
+            sendMessage($chatId, '1. Apply common sense
+2. Don\'t spam . Neither stickers nor GIFs nor memes nor pictures 
+3. Keep it English, other languages are not allowed
+4. No hate - speech, harassment, illegal stuff or insults
+5. Keep on Zenning!');
             break;
         }
       } else {
