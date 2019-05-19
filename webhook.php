@@ -160,3 +160,22 @@ Follow the /rules and enjoy your stay~";
 
   }
 }
+
+if (isset($text)) {
+  if (substr($text, '0', '1') == '/') {
+    $messageArr = explode(' ', $text);
+    $command = explode('@', $messageArr[0])[0];
+    if ($messageArr[0] == '/start' && isset($messageArr[1])) {
+      $command = '/' . $messageArr[1];
+    }
+  } else {
+    die();
+  }
+
+  $command = strtolower($command);
+  switch (true) {
+    case ($command === '/id'):
+      sendMessage($chatId, $chatId . ' ' . $senderUserId);
+      break;
+  }
+}
