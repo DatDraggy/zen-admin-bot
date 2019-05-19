@@ -1,6 +1,7 @@
 <?php
 $config = array();
 $config['chat_id'] = '';
+$config['chat_id_test'] = '';
 $config['mail'] = 'mail@mail.com';
 $config['token'] = '123456:aefAOIEFjoauenfseljnFOUnoEAF';
 $config['url'] = 'https://api.telegram.org/bot' . $config['token'] . '/';
