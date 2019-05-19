@@ -13,7 +13,7 @@ if (isset($data['callback_query'])) {
   $chatType = $data['callback_query']['message']['chat']['type'];
   $callbackData = $data['callback_query']['data'];
   $senderUserId = $data['callback_query']['from']['id'];
-  if ($chatId == $config['chat_id'] || $chatId == $config['chat_id_test']) {
+  if (in_array($chatId, $config['chat_ids'])) {
     list($targetUserId, $status) = explode('|', $callbackData);
 
     if ($targetUserId == $senderUserId) {
@@ -46,7 +46,7 @@ if (isset($data['message']['text'])) {
   $text = $data['message']['caption'];
 }
 
-if ($chatId == $config['chat_id'] || $chatId == $config['chat_id_test']) {
+if (in_array($chatId, $config['chat_ids'])) {
   if (isset($data['message']['new_chat_participant']) && $data['message']['new_chat_participant']['is_bot'] != 1) {
     $userId = $data['message']['new_chat_participant']['id'];
     //restrictChatMember($chatId, $userId, 3600);
@@ -109,7 +109,7 @@ Follow the /rules and enjoy your stay~";
         switch (true) {
           case ($command === '/rules'):
             sendMessage($chatId, '1. Apply common sense
-2. Don\'t spam . Neither stickers nor GIFs nor memes nor pictures 
+2. Don\'t spam. Neither stickers nor GIFs nor memes nor pictures 
 3. Keep it English, other languages are not allowed
 4. No hate - speech, harassment, illegal stuff or insults
 5. Keep on Zenning!');
