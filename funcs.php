@@ -48,6 +48,7 @@ function isUserUnknown($chatId, $userId) {
 
   try {
     $sql = "SELECT user_id FROM telegram_users WHERE chat_id = $chatId AND user_id = $userId";
+    mail($config['mail'], 'Test', $sql);
     $stmt = $dbConnection->prepare('SELECT user_id FROM telegram_users WHERE chat_id = :chatId AND user_id = :userId');
     $stmt->bindParam(':chatId', $chatId);
     $stmt->bindParam(':userId', $userId);
