@@ -120,56 +120,60 @@ Follow the /rules and enjoy your stay~";
         }
       }
     } else {
-      //addUserToNewUsers((string)$chatId, $senderUserId);
-      //if (json_decode(file_get_contents('users.json'), true)[$chatId][$senderUserId] < time() + 1800){
-      if (isNewUser((string)$chatId, $senderUserId)) {
-        if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
-          deleteMessage($chatId, $messageId);
-          kickUser($chatId, $senderUserId, 0);
-        } else if (!empty($data['message']['entities'])) {
-          foreach ($data['message']['entities'] as $entity) {
-            if ($entity['type'] == 'url') {
+      if (!isAdmin($chatId, $senderUserId)) {
+        //addUserToNewUsers((string)$chatId, $senderUserId);
+        //if (json_decode(file_get_contents('users.json'), true)[$chatId][$senderUserId] < time() + 1800){
+        {
+          if (isNewUser((string)$chatId, $senderUserId)) {
+            if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
+              deleteMessage($chatId, $messageId);
+              kickUser($chatId, $senderUserId, 0);
+            } else if (!empty($data['message']['entities'])) {
+              foreach ($data['message']['entities'] as $entity) {
+                if ($entity['type'] == 'url') {
+                  deleteMessage($chatId, $messageId);
+                  if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+                    kickUser($chatId, $senderUserId, 0);
+                  }
+                  break;
+                }
+              }
+            } else if (!empty($data['message']['caption_entities'])) {
+              foreach ($data['message']['caption_entities'] as $entity) {
+                if ($entity['type'] == 'url') {
+                  deleteMessage($chatId, $messageId);
+                  if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+                    kickUser($chatId, $senderUserId, 0);
+                  }
+                  break;
+                }
+              }
+            } else if (stripos($text, 'http') !== FALSE || stripos($text, 'https') !== FALSE) {
               deleteMessage($chatId, $messageId);
               if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
                 kickUser($chatId, $senderUserId, 0);
               }
-              break;
             }
-          }
-        } else if (!empty($data['message']['caption_entities'])) {
-          foreach ($data['message']['caption_entities'] as $entity) {
-            if ($entity['type'] == 'url') {
-              deleteMessage($chatId, $messageId);
-              if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                kickUser($chatId, $senderUserId, 0);
-              }
-              break;
-            }
-          }
-        } else if (stripos($text, 'http') !== FALSE || stripos($text, 'https') !== FALSE) {
-          deleteMessage($chatId, $messageId);
-          if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-            kickUser($chatId, $senderUserId, 0);
+            isNewUsersFirstMessage((string)$chatId, $senderUserId);
           }
         }
-        isNewUsersFirstMessage((string)$chatId, $senderUserId);
-      }
 
-      if (isUserUnknown((string)$chatId, $senderUserId)) {
-        if (!empty($data['message']['entities'])) {
-          foreach ($data['message']['entities'] as $entity) {
-            if ($entity['type'] == 'url') {
-              deleteMessage($chatId, $messageId);
-              restrictChatMember($chatId, $senderUserId, 0, true, false, false, false);
-              kickUser($chatId, $senderUserId, 40);
-              die();
+        if (isUserUnknown((string)$chatId, $senderUserId)) {
+          if (!empty($data['message']['entities'])) {
+            foreach ($data['message']['entities'] as $entity) {
+              if ($entity['type'] == 'url') {
+                deleteMessage($chatId, $messageId);
+                restrictChatMember($chatId, $senderUserId, 0, true, false, false, false);
+                kickUser($chatId, $senderUserId, 40);
+                die();
+              }
             }
+          } else if (!empty($data['message']['photo'])) {
+            deleteMessage($chatId, $messageId);
+            restrictChatMember($chatId, $senderUserId, 0, true, false, false, false);
           }
-        } else if (!empty($data['message']['photo'])) {
-          deleteMessage($chatId, $messageId);
-          restrictChatMember($chatId, $senderUserId, 0, true, false, false, false);
+          userIsKnown($chatId, $senderUserId);
         }
-        userIsKnown($chatId, $senderUserId);
       }
     }
     returnResponse();

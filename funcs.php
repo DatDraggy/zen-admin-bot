@@ -227,6 +227,19 @@ function removeMessageHistory($chatId, $userId) {
   }
 }
 
+function isAdmin($chatId, $userId) {
+  $data = array(
+    'chat_id' => $chatId,
+    'user_id' => $userId
+  );
+  $user = makeApiRequest('getChatMember', $data);
+  if ($user['status'] === 'administrator' || $user['status'] === 'creator') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function restrictChatMember($chatId, $userId, $until = 0, $sendMessages = false, $sendMedia = false, $sendOther = false, $sendWebPreview = false) {
   $untilTimestamp = time() + $until;
   $data = array(
