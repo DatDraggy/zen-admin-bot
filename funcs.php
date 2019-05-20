@@ -48,21 +48,18 @@ function isUserUnknown($chatId, $userId) {
 
   try {
     $sql = "SELECT user_id FROM telegram_users WHERE chat_id = $chatId AND user_id = $userId";
-    mail($config['mail'], 'Test', $sql);
     $stmt = $dbConnection->prepare('SELECT user_id FROM telegram_users WHERE chat_id = :chatId AND user_id = :userId');
     $stmt->bindParam(':chatId', $chatId);
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
-    $row = $stmt->fetch();
+    $stmt->fetch();
   } catch (PDOException $e) {
     notifyOnException('Database Select', $config, $sql, $e);
   }
-  mail($config['mail'], 'debug', print_r($row, true));
-  if ($row['user_id'] == $userId) {
+  if ($stmt->rowCount() == 0) {
     return true;
-  } else {
-    return false;
   }
+  return false;
 }
 
 function userIsKnown($chatId, $userId){
