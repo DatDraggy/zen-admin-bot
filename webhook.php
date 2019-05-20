@@ -169,9 +169,8 @@ Follow the /rules and enjoy your stay~";
           } else if (!empty($data['message']['photo'])) {
             deleteMessage($chatId, $messageId);
             restrictChatMember($chatId, $senderUserId, 0, true, false, false, true);
-          } else {
-            userIsKnown($chatId, $senderUserId);
           }
+          userIsKnown($chatId, $senderUserId);
         }
         returnResponse();
         die();
