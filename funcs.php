@@ -29,6 +29,53 @@ function makeApiRequest($method, $data){
   return $return['result'];
 }
 
+function returnResponse(){
+  ignore_user_abort(true);
+  ob_start();
+  // do initial processing here
+  header('Connection: close');
+  header('Content-Length: '.ob_get_length());
+  header("Content-Encoding: none");
+  header("Status: 200");
+  ob_end_flush();
+  ob_flush();
+  flush();
+}
+
+function isUserUnknown($chatId, $userId) {
+  global $config;
+  $dbConnection = buildDatabaseConnection($config);
+
+  try {
+    $sql = "SELECT user_id FROM telegram_users WHERE chat_id = $chatId AND user_id = $userId";
+    $stmt = $dbConnection->prepare('SELECT user_id FROM telegram_users WHERE chat_id = :chatId AND user_id = :userId');
+    $stmt->bindParam(':chatId', $chatId);
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+  } catch (PDOException $e) {
+    notifyOnException('Database Select', $config, $sql, $e);
+  }
+  if($stmt->rowCount() > 0){
+    return true;
+  }
+  return false;
+}
+
+function userIsKnown($chatId, $userId){
+  global $config;
+  $dbConnection = buildDatabaseConnection($config);
+
+  try {
+    $sql = "INSERT INTO telegram_users VALUES($chatId, $userId)";
+    $stmt = $dbConnection->prepare('INSERT INTO telegram_users VALUES(:chatId, :userId)');
+    $stmt->bindParam(':chatId', $chatId);
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+  } catch (PDOException $e) {
+    notifyOnException('Database Select', $config, $sql, $e);
+  }
+}
+
 function notifyOnException($subject, $config, $sql = '', $e = '', $fail = false) {
   $to = $config['mail'];
   $txt = __FILE__ . ' ' . $sql . ' Error: ' . $e;

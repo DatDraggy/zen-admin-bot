@@ -115,11 +115,13 @@ Follow the /rules and enjoy your stay~";
 5. Keep on Zenning!');
             break;
         }
+        if (!isUserUnknown((string)$chatId, $senderUserId)) {
+          userIsKnown($chatId, $senderName);
+        }
       } else {
         //addUserToNewUsers((string)$chatId, $senderUserId);
         //if (json_decode(file_get_contents('users.json'), true)[$chatId][$senderUserId] < time() + 1800){
         if (isNewUser((string)$chatId, $senderUserId)) {
-          mail($config['mail'], 'Summerboat Dump', $dump);
           if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
             deleteMessage($chatId, $messageId);
             kickUser($chatId, $senderUserId, 0);
@@ -151,7 +153,28 @@ Follow the /rules and enjoy your stay~";
           }
           isNewUsersFirstMessage((string)$chatId, $senderUserId);
         }
+
+        if (isUserUnknown((string)$chatId, $senderUserId)) {
+          if (!empty($data['message']['entities'])) {
+            foreach ($data['message']['entities'] as $entity) {
+              if ($entity['type'] == 'url') {
+                deleteMessage($chatId, $messageId);
+                restrictChatMember($chatId, $senderUserId, 0, true, false, false, true);
+                $newMessageId = sendMessage($chatId, $senderName . ' was temporarily kicked from the group.')['message_id'];
+                kickUser($chatId, $senderUserId, 40);
+                deleteMessage($chatId, $newMessageId);
+                die();
+              }
+            }
+          } else if (!empty($data['message']['photo'])) {
+            deleteMessage($chatId, $messageId);
+            restrictChatMember($chatId, $senderUserId, 0, true, false, false, true);
+          }
+        } else {
+          userIsKnown($chatId, $senderName);
+        }
       }
+      returnResponse();
       die();
     }
 
