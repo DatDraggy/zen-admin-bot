@@ -154,7 +154,7 @@ Follow the /rules and enjoy your stay~";
           isNewUsersFirstMessage((string)$chatId, $senderUserId);
         }
 
-        if (isUserUnknown((string)$chatId, $senderUserId)) {
+        if (isUserUnknown($chatId, $senderUserId)) {
           mail($config['mail'], 'Test', $dump);
           if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
