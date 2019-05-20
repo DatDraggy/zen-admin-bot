@@ -70,7 +70,7 @@ if (in_array($chatId, $config['chat_ids'])) {
     echo json_encode($returndata);
     header('Content-type: application/json');
     header('Connection: close');
-    header('Content-Length: '.ob_get_length());
+    header('Content-Length: ' . ob_get_length());
     ob_end_flush();
     ob_flush();
     flush();
@@ -154,7 +154,7 @@ Follow the /rules and enjoy your stay~";
           isNewUsersFirstMessage((string)$chatId, $senderUserId);
         }
 
-        if (isUserUnknown($chatId, $senderUserId)) {
+        if (isUserUnknown((string)$chatId, $senderUserId)) {
           if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
@@ -172,12 +172,13 @@ Follow the /rules and enjoy your stay~";
           }
           userIsKnown($chatId, $senderUserId);
         }
-        returnResponse();
-        die();
       }
-
+      returnResponse();
+      die();
     }
+
   }
+}
 
 if (isset($text)) {
   if (substr($text, '0', '1') == '/') {
