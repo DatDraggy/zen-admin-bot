@@ -155,7 +155,6 @@ Follow the /rules and enjoy your stay~";
         }
 
         if (isUserUnknown($chatId, $senderUserId)) {
-          mail($config['mail'], 'Test', $dump);
           if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
@@ -170,17 +169,16 @@ Follow the /rules and enjoy your stay~";
           } else if (!empty($data['message']['photo'])) {
             deleteMessage($chatId, $messageId);
             restrictChatMember($chatId, $senderUserId, 0, true, false, false, true);
+          } else {
+            userIsKnown($chatId, $senderUserId);
           }
-        } else {
-          userIsKnown($chatId, $senderUserId);
         }
+        returnResponse();
+        die();
       }
-      returnResponse();
-      die();
-    }
 
+    }
   }
-}
 
 if (isset($text)) {
   if (substr($text, '0', '1') == '/') {
