@@ -52,14 +52,15 @@ function isUserUnknown($chatId, $userId) {
     $stmt->bindParam(':chatId', $chatId);
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
-    $stmt->fetch();
+    $row = $stmt->fetch();
   } catch (PDOException $e) {
     notifyOnException('Database Select', $config, $sql, $e);
   }
-  if($stmt->rowCount() > 0){
+  if ($row['user_id'] == $userId) {
     return true;
+  } else {
+    return false;
   }
-  return false;
 }
 
 function userIsKnown($chatId, $userId){
