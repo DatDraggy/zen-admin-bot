@@ -52,6 +52,7 @@ function isUserUnknown($chatId, $userId) {
     $stmt->bindParam(':chatId', $chatId);
     $stmt->bindParam(':userId', $userId);
     $stmt->execute();
+    $stmt->fetch();
   } catch (PDOException $e) {
     notifyOnException('Database Select', $config, $sql, $e);
   }
