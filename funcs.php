@@ -57,6 +57,7 @@ function isUserUnknown($chatId, $userId) {
   } catch (PDOException $e) {
     notifyOnException('Database Select', $config, $sql, $e);
   }
+  mail($config['mail'], 'debug', print_r($row, true));
   if ($row['user_id'] == $userId) {
     return true;
   } else {
