@@ -163,14 +163,14 @@ Follow the /rules and enjoy your stay~";
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
                 deleteMessage($chatId, $messageId);
-                restrictChatMember($chatId, $senderUserId, 0, true, false, false, false);
-                kickUser($chatId, $senderUserId, 40);
+                restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+                //kickUser($chatId, $senderUserId, 40);
                 die();
               }
             }
           } else if (!empty($data['message']['photo'])) {
             deleteMessage($chatId, $messageId);
-            restrictChatMember($chatId, $senderUserId, 0, true, false, false, false);
+            restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
           }
           userIsKnown($chatId, $senderUserId);
         }
