@@ -121,7 +121,7 @@ Follow the /rules and enjoy your stay~";
       } else {
         //addUserToNewUsers((string)$chatId, $senderUserId);
         //if (json_decode(file_get_contents('users.json'), true)[$chatId][$senderUserId] < time() + 1800){
-        /*if (isNewUser((string)$chatId, $senderUserId)) {
+        if (isNewUser((string)$chatId, $senderUserId)) {
           if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
             deleteMessage($chatId, $messageId);
             kickUser($chatId, $senderUserId, 0);
@@ -152,9 +152,10 @@ Follow the /rules and enjoy your stay~";
             }
           }
           isNewUsersFirstMessage((string)$chatId, $senderUserId);
-        }*/
+        }
 
         if (isUserUnknown((string)$chatId, $senderUserId)) {
+          mail($config['mail'], 'TEst', $dump);
           if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
