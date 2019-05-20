@@ -155,6 +155,7 @@ Follow the /rules and enjoy your stay~";
         }
 
         if (isUserUnknown((string)$chatId, $senderUserId)) {
+          mail($config['mail'], 'Test', $dump);
           if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
@@ -171,7 +172,7 @@ Follow the /rules and enjoy your stay~";
             restrictChatMember($chatId, $senderUserId, 0, true, false, false, true);
           }
         } else {
-          userIsKnown($chatId, $senderName);
+          userIsKnown($chatId, $senderUserId);
         }
       }
       returnResponse();
