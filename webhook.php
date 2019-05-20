@@ -160,9 +160,7 @@ Follow the /rules and enjoy your stay~";
               if ($entity['type'] == 'url') {
                 deleteMessage($chatId, $messageId);
                 restrictChatMember($chatId, $senderUserId, 0, true, false, false, true);
-                $newMessageId = sendMessage($chatId, $senderName . ' was temporarily kicked from the group.')['message_id'];
                 kickUser($chatId, $senderUserId, 40);
-                deleteMessage($chatId, $newMessageId);
                 die();
               }
             }
