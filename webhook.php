@@ -112,28 +112,27 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
           } else if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
-                if (striposa(mb_substr($text, $entity['offset'], $entity['length']), $config['permitted_domains']) !== false) {
-                } else {
-                  deleteMessage($chatId, $messageId);
-                  if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                    kickUser($chatId, $senderUserId, 0);
-                  }
-                  break;
+                deleteMessage($chatId, $messageId);
+                if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+                  kickUser($chatId, $senderUserId, 0);
                 }
+                break;
               }
             }
           } else if (!empty($data['message']['caption_entities'])) {
             foreach ($data['message']['caption_entities'] as $entity) {
               if ($entity['type'] == 'url') {
-                if (striposa(mb_substr($text, $entity['offset'], $entity['length']), $config['permitted_domains']) !== false) {
-                } else {
-                  deleteMessage($chatId, $messageId);
-                  if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                    kickUser($chatId, $senderUserId, 0);
-                  }
-                  break;
+                deleteMessage($chatId, $messageId);
+                if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+                  kickUser($chatId, $senderUserId, 0);
                 }
+                break;
               }
+            }
+          } else if (stripos($text, 'http') !== FALSE || stripos($text, 'https') !== FALSE) {
+            deleteMessage($chatId, $messageId);
+            if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+              kickUser($chatId, $senderUserId, 0);
             }
           }
           isNewUsersFirstMessage((string)$chatId, $senderUserId);
@@ -144,13 +143,10 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
         if (!empty($data['message']['entities'])) {
           foreach ($data['message']['entities'] as $entity) {
             if ($entity['type'] == 'url') {
-              if (striposa(mb_substr($text, $entity['offset'], $entity['length']), $config['permitted_domains']) !== false) {
-              } else {
-                deleteMessage($chatId, $messageId);
-                restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
-                //kickUser($chatId, $senderUserId, 40);
-                die();
-              }
+              deleteMessage($chatId, $messageId);
+              restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+              //kickUser($chatId, $senderUserId, 40);
+              die();
             }
           }
         } else if (!empty($data['message']['photo'])) {

@@ -297,17 +297,3 @@ function answerCallbackQuery($queryId, $text = '') {
   $data = array('callback_query_id'=>$queryId, 'text'=>$text);
   return makeApiRequest('answerCallbackQuery', $data);
 }
-
-function striposa($haystack, $needles = array(), $offset = 0) {
-  $chr = array();
-  foreach ($needles as $needle) {
-    $res = stripos($haystack, $needle, $offset);
-    if ($res !== false) {
-      $chr[$needle] = $res;
-    }
-  }
-  if (empty($chr)) {
-    return false;
-  }
-  return min($chr);
-}

@@ -4,7 +4,6 @@ $config['chat_ids'] = ['-123612356', '-121354'];
 $config['mail'] = 'mail@mail.com';
 $config['token'] = '123456:aefAOIEFjoauenfseljnFOUnoEAF';
 $config['url'] = 'https://api.telegram.org/bot' . $config['token'] . '/';
-$config['permitted_domains'] = ['google.com'];
 
 $config['dbuser'] = 'user';
 $config['dbpassword'] = 'p4ssw0rd';
