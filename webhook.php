@@ -106,39 +106,37 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
     if (!isAdmin($chatId, $senderUserId)) {
       //addUserToNewUsers((string)$chatId, $senderUserId);
       //if (json_decode(file_get_contents('users.json'), true)[$chatId][$senderUserId] < time() + 1800){
-      {
-        if (isNewUser((string)$chatId, $senderUserId)) {
-          if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
-            deleteMessage($chatId, $messageId);
-            restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
-          } else if (!empty($data['message']['entities'])) {
-            foreach ($data['message']['entities'] as $entity) {
-              if ($entity['type'] == 'url') {
-                deleteMessage($chatId, $messageId);
-                if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                  restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
-                }
-                break;
+      if (isNewUser((string)$chatId, $senderUserId)) {
+        if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
+          deleteMessage($chatId, $messageId);
+          restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+        } else if (!empty($data['message']['entities'])) {
+          foreach ($data['message']['entities'] as $entity) {
+            if ($entity['type'] == 'url') {
+              deleteMessage($chatId, $messageId);
+              if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+                restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
               }
-            }
-          } else if (!empty($data['message']['caption_entities'])) {
-            foreach ($data['message']['caption_entities'] as $entity) {
-              if ($entity['type'] == 'url') {
-                deleteMessage($chatId, $messageId);
-                if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                  restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
-                }
-                break;
-              }
-            }
-          } else if (stripos($text, 'http') !== FALSE || stripos($text, 'https') !== FALSE) {
-            deleteMessage($chatId, $messageId);
-            if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-              restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+              break;
             }
           }
-          isNewUsersFirstMessage((string)$chatId, $senderUserId);
+        } else if (!empty($data['message']['caption_entities'])) {
+          foreach ($data['message']['caption_entities'] as $entity) {
+            if ($entity['type'] == 'url') {
+              deleteMessage($chatId, $messageId);
+              if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+                restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+              }
+              break;
+            }
+          }
+        } else if (stripos($text, 'http') !== FALSE || stripos($text, 'https') !== FALSE) {
+          deleteMessage($chatId, $messageId);
+          if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
+            restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+          }
         }
+        isNewUsersFirstMessage((string)$chatId, $senderUserId);
       }
 
       if (isUserUnknown((string)$chatId, $senderUserId)) {
