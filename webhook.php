@@ -13,11 +13,13 @@ if (isset($data['callback_query'])) {
   $chatType = $data['callback_query']['message']['chat']['type'];
   $callbackData = $data['callback_query']['data'];
   $senderUserId = $data['callback_query']['from']['id'];
+  $name = $data['callback_query']['from']['first_name'];
   if (in_array($chatId, $config['chat_ids'])) {
     list($targetUserId, $status) = explode('|', $callbackData);
 
     if ($targetUserId == $senderUserId) {
-      unrestrictUser($chatId, $senderUserId, $data['callback_query']['message']['message_id'], $data['callback_query']['message']['text']);
+      unrestrictUser($chatId, $senderUserId, $data['callback_query']['message']['message_id'], "Welcome, <a href=\"tg://user?id=$senderUserId\">$name</a>!
+Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and enjoy your stay~");
       userClickedButton((string)$chatId, $senderUserId);
       answerCallbackQuery($queryId, 'Accepted.');
       die();
