@@ -110,13 +110,13 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
         if (isNewUser((string)$chatId, $senderUserId)) {
           if (!hasUserClickedButton((string)$chatId, $senderUserId)) {
             deleteMessage($chatId, $messageId);
-            kickUser($chatId, $senderUserId, 0);
+            restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
           } else if (!empty($data['message']['entities'])) {
             foreach ($data['message']['entities'] as $entity) {
               if ($entity['type'] == 'url') {
                 deleteMessage($chatId, $messageId);
                 if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                  kickUser($chatId, $senderUserId, 0);
+                  restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
                 }
                 break;
               }
@@ -126,7 +126,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
               if ($entity['type'] == 'url') {
                 deleteMessage($chatId, $messageId);
                 if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-                  kickUser($chatId, $senderUserId, 0);
+                  restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
                 }
                 break;
               }
@@ -134,7 +134,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
           } else if (stripos($text, 'http') !== FALSE || stripos($text, 'https') !== FALSE) {
             deleteMessage($chatId, $messageId);
             if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
-              kickUser($chatId, $senderUserId, 0);
+              restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
             }
           }
           isNewUsersFirstMessage((string)$chatId, $senderUserId);
