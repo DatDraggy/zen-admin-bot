@@ -2,6 +2,7 @@
 require_once(__DIR__ . '/config.php');
 header('Cache-Control: max-age=0');
 require_once(__DIR__ . '/funcs.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 
 $response = file_get_contents('php://input');
 $data = json_decode($response, true);
