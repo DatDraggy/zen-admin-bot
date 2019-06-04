@@ -11,6 +11,7 @@ $dump = print_r($data, true);
 
 if (isset($data['callback_query'])) {
   $chatId = $data['callback_query']['message']['chat']['id'];
+  $messageId = $data['callback_query']['message']['message_id'];
   $queryId = $data['callback_query']['id'];
   $chatType = $data['callback_query']['message']['chat']['type'];
   $callbackData = $data['callback_query']['data'];
@@ -24,6 +25,7 @@ if (isset($data['callback_query'])) {
 Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and enjoy your stay~");
       userClickedButton((string)$chatId, $senderUserId);
       answerCallbackQuery($queryId, 'Accepted.');
+      deleteMessage($chatId, $messageId);
       die();
     }
     answerCallbackQuery($queryId);
