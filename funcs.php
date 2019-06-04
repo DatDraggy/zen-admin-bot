@@ -19,7 +19,8 @@ function makeApiRequest($method, $data) {
     $response = $client->request('POST', $method, array('json' => $data));
   } catch (\GuzzleHttp\Exception\BadResponseException $e) {
     $body = $e->getResponse()->getBody();
-    mail($config['mail'], 'Error', print_r($body->getContents(), true) . "\n" . print_r($data, true) . "\n" . __FILE__);
+    //mail($config['mail'], 'Error', print_r($body->getContents(), true) . "\n" . print_r($data, true) . "\n" . __FILE__);
+    file_put_contents('log.txt', print_r($body->getContents(), true) . "\n" . print_r($data, true) . "\n\n", FILE_APPEND);
   }
   return json_decode($response->getBody(), true)['result'];
 }
