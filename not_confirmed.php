@@ -6,7 +6,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $dbConnection = buildDatabaseConnection($config);
 
-$sql = 'SELECT chat_id, user_id, message_id FROM telegram_messages WHERE time <> 0 AND time + 1800 < UNIX_TIMESTAMP()';
+$sql = 'SELECT chat_id, user_id, message_id FROM telegram_messages WHERE time <> 0 AND time + 600 < UNIX_TIMESTAMP()';
 $stmt = $dbConnection->prepare($sql);
 $stmt->execute();
 $rows = $stmt->fetchAll();
