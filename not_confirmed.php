@@ -18,4 +18,5 @@ foreach ($rows as $row){
   $stmt->bindParam(':chatId', $row['chat_id']);
   $stmt->bindParam(':userId', $row['user_id']);
   $stmt->execute();
+  sleep(1);
 }
