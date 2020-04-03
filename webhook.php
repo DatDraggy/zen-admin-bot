@@ -155,7 +155,10 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
           }
         } else if (!empty($data['message']['photo'])) {
           deleteMessage($chatId, $messageId);
-          restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+          restrictChatMember($chatId, $senderUserId, 60, false, false, false, false);
+          //Special condition, don't add user to known
+          returnResponse();
+          die();
         } else if (!empty($data['message']['document'])) {
           deleteMessage($chatId, $messageId);
           restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
