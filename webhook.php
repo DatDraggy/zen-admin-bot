@@ -167,7 +167,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
       }
 
       //TODO: Blacklist
-      if (strpos($data['message']['text'], 'OHM-fork') !== false) {
+      if (strpos($data['message']['text'], 'OHM-fork') !== false || strpos($data['message']['text'], 'NemesisDAO') !== false) {
           deleteMessage($chatId, $messageId);
           restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
       }
