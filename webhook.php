@@ -165,6 +165,12 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
         }
         userIsKnown($chatId, $senderUserId);
       }
+
+      //TODO: Blacklist
+      if (strpos($data['message']['text'], 'OHM-fork') !== false) {
+          deleteMessage($chatId, $messageId);
+          restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
+      }
     }
 
     returnResponse();
