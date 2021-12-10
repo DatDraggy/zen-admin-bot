@@ -116,7 +116,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
           restrictChatMember($chatId, $senderUserId, 172800, false, false, false, false);
         } else if (!empty($data['message']['entities'])) {
           foreach ($data['message']['entities'] as $entity) {
-            if ($entity['type'] == 'url') {
+            if ($entity['type'] === 'url' || $entity['type'] === 'mention') {
               deleteMessage($chatId, $messageId);
               if (isNewUsersFirstMessage((string)$chatId, $senderUserId)) {
                 restrictChatMember($chatId, $senderUserId, 172800, false, false, false, false);
@@ -146,7 +146,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
       if (isUserUnknown((string)$chatId, $senderUserId)) {
         if (!empty($data['message']['entities'])) {
           foreach ($data['message']['entities'] as $entity) {
-            if ($entity['type'] == 'url') {
+            if ($entity['type'] === 'url' || $entity['type'] === 'mention') {
               deleteMessage($chatId, $messageId);
               restrictChatMember($chatId, $senderUserId, 172800, false, false, false, false);
               //kickUser($chatId, $senderUserId, 40);
