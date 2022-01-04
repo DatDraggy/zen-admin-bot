@@ -86,8 +86,16 @@ if (in_array($chatId, $config['chat_ids'])) {
     if (isset($data['message']['new_chat_participant']['last_name'])) {
       $name .= ' ' . $data['message']['new_chat_participant']['last_name'];
     }
-    $rules = "Welcome, <a href=\"tg://user?id=$userId\">$name</a>!
+    if ($chatId == '-1001181305790') {
+        $rules = "欢迎欢迎热烈欢迎！本群是Horizen唯一的官方中文电报群. 
+请勿在本群内发布与Horizen无关的广告和推广。
+严禁文明侮辱性发言 
+如发现违反群规的行为，则会被移出本群，不予以警告。  
+Horizen社区的茁壮成长离不开大家的支持和共同维护，希望大家友好交流互相帮助。";
+    } else {
+        $rules = "Welcome, <a href=\"tg://user?id=$userId\">$name</a>!
 Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and enjoy your stay~";
+    }
     $replyMarkup = array(
       'inline_keyboard' => array(
         array(
