@@ -100,7 +100,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
       'inline_keyboard' => array(
         array(
           array(
-            "text" => "Press if you're not a bot!",
+            "text" => $chatId == '-1001181305790' ? "点击验证" : "Press if you're not a bot!",
             "callback_data" => $userId . '|bot'
           )
         )
@@ -175,7 +175,7 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
       }
 
       //TODO: Blacklist
-      if (strpos($data['message']['text'], 'OHM-fork') !== false || strpos($data['message']['text'], 'NemesisDAO') !== false) {
+      if (strpos($text, 'OHM-fork') !== false || strpos($text, 'NemesisDAO') !== false) {
           deleteMessage($chatId, $messageId);
           restrictChatMember($chatId, $senderUserId, 0, false, false, false, false);
       }
