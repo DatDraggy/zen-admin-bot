@@ -108,7 +108,11 @@ Follow the <a href=\"https://t.me/horizenadmin_bot?start=rules\">rules</a> and e
     );
     $message = sendMessage($chatId, $rules, json_encode($replyMarkup));
     addMessageToHistory($chatId, $data['message']['new_chat_participant']['id'], $messageId, time());
-    addMessageToHistory($chatId, $data['message']['new_chat_participant']['id'], $message['message_id']);
+    try {
+        addMessageToHistory($chatId, $data['message']['new_chat_participant']['id'], $message['message_id']);
+    } catch (Exception $e) {
+        mail($config['mail'], 'Debug', $dump);
+    }
     if ($name == 'Bot Notification' || $name == 'Information Agent') {
       kickUser($chatId, $userId, '0');
       deleteMessages($chatId, $userId);
